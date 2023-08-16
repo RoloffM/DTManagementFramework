@@ -1,0 +1,9 @@
+  <plugin>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated stack -->
+      <package
+            uri="http://momot.big.tuwien.ac.at/examples/stack/1.0"
+            class="at.ac.tuwien.big.momot.examples.stack.stack.StackPackage"
+            genModel="model/stack.genmodel"/>
+   </extension>
+   </plugin>

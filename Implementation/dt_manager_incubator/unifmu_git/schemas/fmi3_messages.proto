@@ -1,0 +1,379 @@
+syntax = "proto3";
+
+
+package fmi3_messages;
+
+// https://developers.google.com/protocol-buffers/docs/reference/java-generated#package
+option java_package = "";
+option java_outer_classname = "Fmi3Messages";
+
+
+// ----------------------- FMI3 ----------------------
+
+enum Fmi3Status {
+  FMI3_OK = 0;
+  FMI3_WARNING=1;
+  FMI3_DISCARD=2;
+  FMI3_ERROR=3;
+  FMI3_FATAL=4;
+}
+
+
+message Fmi3InstantiateModelExchange {
+  string instance_name = 1;
+  string instantiation_token = 2;
+  string resource_path = 3;
+  bool visible = 4;
+  bool logging_on = 5;
+}
+
+
+message Fmi3InstantiateCoSimulation {
+  string instance_name = 1;
+  string instantiation_token = 2;
+  string resource_path = 3;
+  bool visible = 4;
+  bool logging_on = 5;
+  bool event_mode_used = 6;
+  bool early_return_allowed = 7;
+  repeated uint32 required_intermediate_variables = 8;
+}
+
+message Fmi3InstantiateScheduledExecution {
+  string instance_name = 1;
+  string instantiation_token = 2;
+  string resource_path = 3;
+  bool visible = 4;
+  bool logging_on = 5;
+}
+
+message Fmi3DoStep {
+  double current_communication_point = 1;
+  double communication_step_size = 2;  
+  bool no_set_fmu_state_prior_to_current_point = 3;
+}
+
+message Fmi3SetDebugLogging {
+  bool logging_on = 1;
+  repeated string categories = 2;
+}
+
+message Fmi3EnterInitializationMode {
+  optional double tolerance = 1;
+  double start_time = 2;
+  optional double stop_time = 3;
+}
+
+message Fmi3ExitInitializationMode {}
+
+message Fmi3FreeInstance {}
+
+message Fmi3Terminate {}
+
+message Fmi3Reset {}
+
+message Fmi3SerializeFmuState {}
+
+message Fmi3DeserializeFmuState {
+    bytes state = 1;
+}
+
+// ----------------------- FMI3 Getters ----------------------
+
+
+message Fmi3GetFloat32 {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetFloat64 {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetInt8 {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetUInt8 {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetInt16 {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetUInt16 {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetInt32 {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetUInt32 {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetInt64 {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetUInt64 {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetBoolean {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetString {
+  repeated uint32 value_references = 1;
+}
+
+message FmiGetBinary {
+  repeated uint32 value_references = 1;
+}
+
+message Fmi3GetDirectionalDerivative {
+  repeated uint32 unknowns = 1;
+  repeated uint32 knowns = 2;
+  repeated double seed = 3;
+  repeated double sensitivity = 4;
+}
+
+message Fmi3GetAdjointDerivative {
+  repeated uint32 unknowns = 1;
+  repeated uint32 knowns = 2;
+  repeated double seed = 3;
+  repeated double sensitivity = 4;
+}
+
+message Fmi3GetOutputDerivatives {
+  repeated uint32 value_references = 1;
+  repeated uint32 orders = 2;
+  repeated double values = 3;
+}
+
+// ----------------------- FMI3 Setters ----------------------
+
+message Fmi3SetFloat32 {
+  repeated uint32 value_references= 1;
+  repeated float values = 2;
+}
+
+message Fmi3SetFloat64 {
+  repeated uint32 value_references= 1;
+  repeated double values = 2;
+}
+
+message Fmi3SetInt8 {
+  repeated uint32 value_references= 1;
+  repeated int32 values = 2;
+}
+
+message Fmi3SetUInt8 {
+  repeated uint32 value_references= 1;
+  repeated uint32 values = 2;
+}
+
+message Fmi3SetInt16 {
+  repeated uint32 value_references= 1;
+  repeated int32 values = 2;
+}
+
+message Fmi3SetUInt16 {
+  repeated uint32 value_references= 1;
+  repeated uint32 values = 2;
+}
+
+message Fmi3SetInt32 {
+  repeated uint32 value_references= 1;
+  repeated int32 values = 2;
+}
+
+message Fmi3SetUInt32 {
+  repeated uint32 value_references= 1;
+  repeated uint32 values = 2;
+}
+
+message Fmi3SetInt64 {
+  repeated uint32 value_references= 1;
+  repeated int64 values = 2;
+}
+
+message Fmi3SetUInt64 {
+  repeated uint32 value_references= 1;
+  repeated uint64 values = 2;
+}
+
+message Fmi3SetBoolean {
+  repeated uint32 value_references = 1;
+  repeated bool values = 2;
+}
+
+message Fmi3SetString {
+  repeated uint32 value_references = 1;
+  repeated string values = 2;
+}
+
+message FmiSetBinary {
+  repeated uint32 value_references = 1;
+  repeated bytes values = 2;
+}
+
+// ----------------------- FMI3 Return Values ----------------------
+
+message Fmi3DoStepReturn
+{
+  Fmi3Status status = 1;
+  bool event_handling_needed = 2;
+  bool terminate_simulation = 3;
+  bool early_return = 4;
+  double last_successful_time = 5;
+}
+
+// For methods that do not return a status code
+message Fmi3EmptyReturn {}
+
+message Fmi3StatusReturn {
+    Fmi3Status status = 1;
+}
+
+message Fmi3FreeInstanceReturn {}
+
+message Fmi3GetFloat32Return {
+  Fmi3Status status = 1;
+  repeated float values = 2;
+}
+
+message Fmi3GetFloat64Return {
+  Fmi3Status status = 1;
+  repeated double values = 2;
+}
+
+message Fmi3GetInt8Return {
+  Fmi3Status status = 1;
+  repeated int32 values = 2;
+}
+
+message Fmi3GetUInt8Return {
+  Fmi3Status status = 1;
+  repeated uint32 values = 2;
+}
+
+message Fmi3GetInt16Return {
+  Fmi3Status status = 1;
+  repeated int32 values = 2;
+}
+
+message Fmi3GetUInt16Return {
+  Fmi3Status status = 1;
+  repeated uint32 values = 2;
+}
+
+message Fmi3GetInt32Return {
+  Fmi3Status status = 1;
+  repeated int32 values = 2;
+}
+
+message Fmi3GetUInt32Return {
+  Fmi3Status status = 1;
+  repeated uint32 values = 2;
+}
+
+message Fmi3GetInt64Return {
+  Fmi3Status status = 1;
+  repeated int64 values = 2;
+}
+
+message Fmi3GetUInt64Return {
+  Fmi3Status status = 1;
+  repeated uint64 values = 2;
+}
+
+message Fmi3GetBooleanReturn {
+  Fmi3Status status = 1;
+  repeated bool values = 2;
+}
+
+message Fmi3GetStringReturn {
+  Fmi3Status status = 1;
+  repeated string values = 2;
+}
+
+message FmiGetBinaryReturn {
+  Fmi3Status status = 1;
+  repeated bytes values = 2;
+}
+
+message Fmi3GetDirectionalDerivativeReturn {
+  Fmi3Status status = 1;
+  repeated double values = 2;
+}
+
+message Fmi3GetAdjointDerivativeReturn {
+  Fmi3Status status = 1;
+  repeated double values = 2;
+}
+
+message Fmi3GetOutputDerivativesReturn {
+  Fmi3Status status = 1;
+  repeated double values = 2;
+}
+
+message Fmi3SerializeFmuStateReturn {
+  Fmi3Status status = 1;
+  bytes state = 2;
+}
+
+
+
+// ----------------------- FMI Command Wrapper ----------------------
+
+message Fmi3Command {
+  oneof command {
+
+    // FMI3
+
+    Fmi3InstantiateModelExchange Fmi3InstantiateModelExchange= 1;
+    Fmi3InstantiateCoSimulation Fmi3InstantiateCoSimulation = 2;
+    Fmi3InstantiateScheduledExecution Fmi3InstantiateScheduledExecution = 3;
+    Fmi3DoStep Fmi3DoStep = 4;
+    Fmi3SetDebugLogging Fmi3SetDebugLogging = 5;
+    Fmi3EnterInitializationMode Fmi3EnterInitializationMode = 6;
+    Fmi3ExitInitializationMode Fmi3ExitInitializationMode = 7;
+    Fmi3FreeInstance Fmi3FreeInstance = 8;
+    Fmi3Terminate Fmi3Terminate = 9;
+    Fmi3Reset Fmi3Reset = 10;
+    Fmi3GetFloat32 Fmi3GetFloat32 = 13;
+    Fmi3GetFloat64 Fmi3GetFloat64 = 14;
+    Fmi3GetInt8 Fmi3GetInt8 = 15;
+    Fmi3GetUInt8 Fmi3GetUInt8 = 16;
+    Fmi3GetInt16 Fmi3GetInt16 = 17;
+    Fmi3GetUInt16 Fmi3GetUInt16 = 18;
+    Fmi3GetInt32 Fmi3GetInt32 = 19;
+    Fmi3GetUInt32 Fmi3GetUInt32 = 20;
+    Fmi3GetInt64 Fmi3GetInt64 = 21;
+    Fmi3GetUInt64 Fmi3GetUInt64 = 22;
+    Fmi3GetBoolean Fmi3GetBoolean = 23;
+    Fmi3GetString Fmi3GetString = 24;
+    FmiGetBinary FmiGetBinary = 25;
+    Fmi3GetDirectionalDerivative Fmi3GetDirectionalDerivative = 26;
+    Fmi3GetAdjointDerivative Fmi3GetAdjointDerivative = 27;
+    Fmi3GetOutputDerivatives Fmi3GetOutputDerivatives = 28;
+    Fmi3SetFloat32 Fmi3SetFloat32 = 29;
+    Fmi3SetFloat64 Fmi3SetFloat64 = 30;
+    Fmi3SetInt8 Fmi3SetInt8 = 31;
+    Fmi3SetUInt8 Fmi3SetUInt8 = 32;
+    Fmi3SetInt16 Fmi3SetInt16 = 33;
+    Fmi3SetUInt16 Fmi3SetUInt16 = 34;
+    Fmi3SetInt32 Fmi3SetInt32 = 35;
+    Fmi3SetUInt32 Fmi3SetUInt32 = 36;
+    Fmi3SetInt64 Fmi3SetInt64 = 37;
+    Fmi3SetUInt64 Fmi3SetUInt64 = 38;
+    Fmi3SetBoolean Fmi3SetBoolean = 39;
+    Fmi3SetString Fmi3SetString = 40;
+    FmiSetBinary FmiSetBinary = 41;
+    Fmi3SerializeFmuState Fmi3SerializeFmuState = 42;
+    Fmi3DeserializeFmuState Fmi3DeserializeFmuState = 43;
+  }
+}
